@@ -37,7 +37,7 @@ export interface Product {
   // Resposta paginada
   export interface PaginatedProducts {
     success: boolean
-    // message: string
+    message: string
     data: Product[]
     pagination: {
       current_page: number

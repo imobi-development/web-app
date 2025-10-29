@@ -107,7 +107,7 @@
   </template>
   
   <script setup lang="ts">
-  import { productsApi } from '@/utils/api/products'
+  import { productsApi } from '~/utils/api/productApi'
   import type { CreateProductDto } from '@/types/models/product'
   
   const formData = ref<CreateProductDto>({

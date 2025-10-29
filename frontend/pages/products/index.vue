@@ -100,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { productsApi } from '@/utils/api/products'
+import { productsApi } from '~/utils/api/productApi'
 
 const currentPage = ref(1)
 
