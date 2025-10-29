@@ -8,10 +8,15 @@ export const productsApi = {
   /**
    * GET /products - Lista todos os produtos com paginação
    */
-  getAll(page: number = 1) {
+  getAll(page: Ref<number> | number = 1) {
+    // Se for um Ref, usa computado para query reativa
+    const query = computed(() => ({
+      page: typeof page === 'number' ? page : page.value
+    }))
+
     return useFetch<PaginatedProducts>('/products', {
       baseURL: useRuntimeConfig().public.apiBase,
-      query: { page },
+      query, // ⭐ Query reativa - atualiza automaticamente!
     })
   },
 

@@ -36,9 +36,15 @@ export interface Product {
   
   // Resposta paginada
   export interface PaginatedProducts {
+    success: boolean
+    // message: string
     data: Product[]
-    current_page: number
-    last_page: number
-    per_page: number
-    total: number
+    pagination: {
+      current_page: number
+      last_page: number
+      per_page: number
+      total: number
+      from: number
+      to: number
+    }
   }
