@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\PropertyController;
 
 // Rota de teste
 Route::get('/hello', function () {
@@ -28,4 +29,12 @@ Route::prefix('products')->group(function () {
     
     // DELETE /api/products/{id} - Deletar
     Route::delete('/{id}', [ProductController::class, 'destroy']);
+});
+
+Route::prefix('properties')->group(function () {
+    Route::get('/', [PropertyController::class, 'index']);
+    // Route::get('/{id}', [PropertyController::class, 'show']);
+    Route::post('/', [PropertyController::class, 'store']);
+    // Route::patch('/{id}', [PropertyController::class, 'update']);
+    // Route::delete('/{id}', [PropertyController::class, 'destroy']);
 });
