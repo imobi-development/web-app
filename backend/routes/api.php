@@ -31,7 +31,7 @@ Route::prefix('products')->group(function () {
     Route::delete('/{id}', [ProductController::class, 'destroy']);
 });
 
-Route::prefix('properties')->group(function () {
+Route::prefix('property')->group(function () {
     Route::get('/', [PropertyController::class, 'index']);
     // Route::get('/{id}', [PropertyController::class, 'show']);
     Route::post('/', [PropertyController::class, 'store']);

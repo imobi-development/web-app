@@ -12,4 +12,12 @@ class PropertyController extends Controller
         $properties = Property::all();
         return response()->json($properties);
     }
+
+    public function store(Request $request) {
+        $property = Property::create([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+        return response()->json($property);
+    }
 }
