@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Product\ProductController;
@@ -8,6 +9,11 @@ use App\Http\Controllers\PropertyController;
 // Rota de teste
 Route::get('/hello', function () {
     return response()->json(['message' => 'Olá do Laravel!']);
+});
+
+
+Route::prefix('auth')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
 // ⭐ ROTAS DE PRODUTOS - Usando Controller
@@ -36,5 +42,5 @@ Route::prefix('property')->group(function () {
     // Route::get('/{id}', [PropertyController::class, 'show']);
     Route::post('/', [PropertyController::class, 'store']);
     // Route::patch('/{id}', [PropertyController::class, 'update']);
-    // Route::delete('/{id}', [PropertyController::class, 'destroy']);
+    Route::delete('/{id}', [PropertyController::class, 'destroy']);
 });
