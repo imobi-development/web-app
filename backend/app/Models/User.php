@@ -29,7 +29,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasUlids;
+    use HasFactory, Notifiable, HasUlids, HasApiTokens;
 
     /** 
      * Desabilita auto-increment (usamos ULID) 

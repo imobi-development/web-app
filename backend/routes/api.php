@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\PropertyController;
 
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
 // Rota de teste
 Route::get('/hello', function () {
     return response()->json(['message' => 'Olá do Laravel!']);
@@ -14,9 +19,9 @@ Route::get('/hello', function () {
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
-// ⭐ ROTAS DE PRODUTOS - Usando Controller
 Route::prefix('products')->group(function () {
     // GET /api/products - Listar todos
     Route::get('/', [ProductController::class, 'index']);
