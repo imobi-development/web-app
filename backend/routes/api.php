@@ -7,9 +7,11 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\PropertyController;
 
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', function (Request $request) {
+        return response()->json(['user' => $request->user()]);
+    });
+});
 
 // Rota de teste
 Route::get('/hello', function () {
@@ -20,24 +22,25 @@ Route::get('/hello', function () {
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
 Route::prefix('products')->group(function () {
     // GET /api/products - Listar todos
     Route::get('/', [ProductController::class, 'index']);
-    
+
     // GET /api/products/category/{category} - Por categoria (antes do {id})
     Route::get('/category/{category}', [ProductController::class, 'byCategory']);
-    
+
     // GET /api/products/{id} - Buscar por ID
     Route::get('/{id}', [ProductController::class, 'show']);
-    
+
     // POST /api/products - Criar
     Route::post('/', [ProductController::class, 'store']);
-    
+
     // PATCH /api/products/{id} - Atualizar
     Route::patch('/{id}', [ProductController::class, 'update']);
-    
+
     // DELETE /api/products/{id} - Deletar
     Route::delete('/{id}', [ProductController::class, 'destroy']);
 });

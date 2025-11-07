@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Middleware\AuthenticateCookie;
 use App\Http\Middleware\ForceJsonResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -14,8 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->prepend(HandleCors::class);
         $middleware->group('api', [
             ForceJsonResponse::class, // Força retornar JSON ao Invez da página do Html do Laravel
+            AuthenticateCookie::class,
             Illuminate\Routing\Middleware\SubstituteBindings::class
         ]);
     })

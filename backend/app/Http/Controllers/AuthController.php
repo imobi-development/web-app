@@ -28,9 +28,9 @@ class AuthController extends Controller
                 'is_active' => $validatedData['is_active'],
             ]);
 
-            return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
+            return response()->json(['message' => 'Usuário criado com sucesso'], 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error creating user', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Erro ao criar usuário', 'error' => $e->getMessage()], 500);
         }
     }
 
@@ -45,10 +45,23 @@ class AuthController extends Controller
             return response()->json(['message' => 'Credenciais Inválidas'], 401);
         }
 
-        // Criar token de acesso para o usuário
         $user = User::where('email', $request->email)->first();
-        $token = $user->createToken('access_token');
 
-        return ['token' => $token->plainTextToken];
+        if (!$user->is_active) {
+            return response()->json(['message' => 'Usuário Inativo'], 401);
+        }
+
+        $user->tokens()->delete(); // Revoga Tokens Antigos
+        $token = $user->createToken('access_token');
+        $cookie = cookie('auth_token', $token->plainTextToken, 60 * 24 * 30, '/', null, false, true, false, 'lax');
+
+        return response()->json(['message' => 'Login realizado com sucesso'], 200)->cookie($cookie);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        $cookie = cookie()->forget('auth_token');
+        return response()->json(['message' => 'Logout realizado com sucesso'], 200)->cookie($cookie);
     }
 }
